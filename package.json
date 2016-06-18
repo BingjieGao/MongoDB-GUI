@@ -17,6 +17,7 @@
     "express": "~4.13.1",
     "istanbul": "^0.4.1",
     "jade": "~1.11.0",
+    "kerberos": "0.0.21",
     "mocha-phantomjs": "^4.0.2",
     "mongodb": "^2.1.4",
     "mongoose": "^4.3.6",
