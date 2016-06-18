@@ -5,3 +5,4 @@ node_js:
   - "5.11"
   - "4.2.2"
   - "iojs"
+services: mongodb
