@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="<!doctype html>">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+
+    <!-- bootstrap -->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+   <style>
+
+       body {
+           font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+           font-weight: 400;
+           color:#77BA9B;
+       }
+       #navheader{
+           background-color: transparent;
+           /*#3cb879*/
+           border-bottom: 6px solid #77BA9B;
+           min-height: 75px;
+       }
+       .navbar-brand{
+           font-size: 32px;
+           color: #77BA9B;
+           margin-top: 10px;
+           font-weight: 600;
+       }
+       .navbar-brand:hover{
+           color: #77BA9B;
+       }
+       .navbar-brand:visited{
+           color: #77BA9B;
+       }
+       .navbar-nav>li>a{
+           margin-top: 10px;
+           color: #77BA9B;
+       }
+       .navbar-nav>li>a:hover{
+           color: #77BA9B;
+       }
+       .navbar-toggle>span{
+           background:#77BA9B;
+           margin-top:20px;
+       }
+       .icon-bar:hover{
+           color: #77BA9B;
+       }
+
+
+       /*postblog css*/
+       .container-post{
+           margin: 10px;
+           text-align: center;
+       }
+       #markdown{
+           border-right: 4px solid #77BA9B;
+       }
+       #post-right{
+           border-left: 4px solid #77BA9B;
+       }
+
+
+       /*login page css*/
+       #logincontainer {
+           margin-top: 100px;
+       }
+       #inputlabel{
+           text-align: left;
+           display:inline-block;
+           width: 6.3em;
+       }
+       .form-control{
+           border:0px transparent;
+           background-color: transparent;
+       }
+       .form-control:focus{
+           border-color:transparent;
+       }
+       input{
+           background-color: transparent;
+           font-weight: 600;
+           font-size: 20px;
+           outline: 0;
+           border:0;
+           display: inline-block;
+       }
+       .form-signin-heading{
+           text-align: center;
+           margin-left: 1em;
+       }
+       #inputEmail{
+           border: 0;
+           margin: 10px;
+           display:inline-block;
+           /*border-bottom: 3px solid;*/
+           /*border-bottom-color: mediumaquamarine;*/
+       }
+       #inputPassword{
+           border-color: transparent;
+           margin: 10px;
+           display:inline-block;
+           /*border-bottom: 3px solid;*/
+           /*border-bottom-color: mediumaquamarine;*/
+       }
+       .checkbox{
+           margin-left: 5em;
+       }
+       #loginbtn{
+           background-color: #77BA9B;
+           border-color: transparent;
+           width: 80%;
+           margin-left:10%;
+       }
+       .missing-msg{
+           color:red;
+           display:none;
+       }
+       </style>
+
+
+    <!--&lt;!&ndash; Optional theme &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+</head>
+
+<body>
+
+<div class="container" id="logincontainer">
+    <div class="col-sm-4 col-md-4 col-md-offset-4">
+
+        <form class="form-inline" id="loginpage" method="post">
+            <h2 class="form-signin-heading">SIGN UP</h2>
+            <div class="form-group">
+                <label for="inputEmail" id="inputlabel">Email</label>
+                <input name="useremail" type="email" id="inputEmail" class="form-control" required autofocus>
+                <p class="missing-msg">missing email address</p>
+            </div>
+
+            <div class="form-group">
+                <label id="inputlabel">User Name</label>
+                <input name="username" id="inputEmail" class="form-control" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword" id="inputlabel">Password</label>
+                <input name="password" type="password" id="inputPassword" class="form-control"  required>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> REMEMBER
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" id="loginbtn" type="submit">Sign up</button>
+        </form>
+    </div>
+</div> <!-- /container -->
+
+<script src="./javascripts/jquery-2.1.4.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script>
+    src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'
+</script>
+
+<script>
+
+    //    $(document).ready(function(){
+    //     $('#loginbtn').click(function(){
+    //        $.ajax({
+    //            url:'/validate',
+    //            type:'POST',
+    //            timeout:5000,
+    //            cache:false,
+    //            dataType: "json"
+    //        })
+    //    })
+    //
+    //    });
+
+
+
+</script>
+</body>
+
+</html>

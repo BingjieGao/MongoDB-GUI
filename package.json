@@ -1,0 +1,33 @@
+{
+  "name": "mongoprofile",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "assert": "^1.3.0",
+    "body-parser": "~1.13.2",
+    "chai": "^3.4.1",
+    "codecov.io": "^0.1.6",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "ejs": "^2.3.4",
+    "express": "~4.13.1",
+    "istanbul": "^0.4.1",
+    "jade": "~1.11.0",
+    "mocha-phantomjs": "^4.0.2",
+    "mongodb": "^2.1.4",
+    "mongoose": "^4.3.6",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0",
+    "superagent": "^1.6.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "mocha": "^2.3.4",
+    "should": "^8.0.2",
+    "supertest": "^1.1.0"
+  }
+}

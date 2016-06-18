@@ -1,0 +1,119 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+h1,h2,h3,h4,h5,h6{
+  display:inline-block;
+}
+.main{
+  width:100%;
+  height:100%;
+  position: fixed;
+}
+.connect-table{
+  border:1px solid ghostwhite;
+  width:30%;
+  height:50%;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  min-height:150px;
+}
+.connect-header{
+  background-color: #7ACCB8;
+  width:100%;
+  padding:1px 1px;
+  margin-bottom:6em;
+  text-align: center;
+}
+.connect-content{
+  display:inline-block;
+  margin: 0 auto;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-20%);
+  position:fixed;
+}
+.connect-btn{
+  display:inline-block;
+  position:fixed;
+  background-color:#7ACCB8;
+  top:50%;
+  transform: translate(0,-20%);
+  padding:10px 20px;
+  right:0;
+}
+.connect-btn:hover{
+  cursor:pointer;
+}
+
+.outer{
+  width:100%;
+  height:100%;
+  /* Firefox */
+  /*display:-moz-box;*/
+  /*-moz-box-pack:center;*/
+  /*-moz-box-align:center;*/
+
+  /*/!* Safari and Chrome *!/*/
+  /*display:-webkit-box;*/
+  /*-webkit-box-pack:center;*/
+  /*-webkit-box-align:center;*/
+
+  /*/!* W3C *!/*/
+  /*display:box;*/
+  /*box-pack:center;*/
+  /*box-align:center;*/
+  /*display:none;*/
+
+}
+
+.container{
+  width:95%;
+  height:90%;
+  left:0;
+  right:0;
+  margin-left: auto;
+  margin-right:auto;
+  border:0px solid transparent;
+  background-color: #bfbfbf;
+  padding:1%;
+  position:absolute;
+  display:inline-table;
+  max-width: 1500px;
+  min-width: 1000px;
+}
+.display-content{
+  width:100%;
+  height:100%;
+  margin:0 auto;
+  max-width: 1500px;
+  min-width: 1000px;
+}
+.col-4{
+  float:left;
+  width:12%;
+  margin:0px;
+  border: 0px transparent;
+  padding:0px;
+  display:inline-table;
+
+}
+.col-2{
+  float:left;
+  margin-left: 3%;
+  width:83%;
+  border:0px transparent;
+  display: inline-table;
+}
+.clear{
+  clear:both;
+}
+.close-btn{
+  font-size: 30px;
+  float:right;
+  padding: 8px 10px;
+}
+.close-btn:hover{
+  cursor: pointer;
+}

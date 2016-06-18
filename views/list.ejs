@@ -1,0 +1,544 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src='https://cdn.socket.io/socket.io-1.2.0.js'></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/list.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/contextmenu.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+    </style>
+</head>
+<body>
+<div class="outer">
+    <div class="container">
+        <h1>Management UI</h1>
+
+        <div class="display-content">
+            <div class="contextmenu">
+                <div class="menulist" id="edit-menu-list">Edit</div>
+                <div class="menulist" id="delete-menu-list">Delete</div>
+            </div>
+
+            <div class="database-contextmenu">
+                <!--<div class="menulist" id="rename-database">Edit</div>-->
+                <div class="menulist" id="drop-database">Delete</div>
+            </div>
+
+            <div class="overlay">
+                <div class="close-btn">X</div>
+                <div class="table-edit-content" id="new-database-table">
+                    <!--<form id="edit-form" method="post">-->
+                    <div class="edit-content-header"><h3>Create New Database</h3></div>
+                    <div class="overlay-content">
+                        <i class="fa fa-database fa-3x"></i>
+                        <textarea type="text" id="new-database-name"></textarea>
+                    </div>
+                    <div class="overlay-btn" id="create-database">CREATE</div>
+                    <div class="overlay-btn" id="cencel-btn">CENCEL</div>
+                    <!--</form>-->
+                    <div class="clear"></div>
+                </div>
+
+                <div class="table-edit-content" id="new-collection">
+                    <!--<form id="edit-form" method="post">-->
+                    <div class="edit-content-header"><h3>Create New Collection</h3></div>
+                    <div class="overlay-content">
+                        <i class="fa fa-database fa-3x"></i>
+                        <textarea type="text" id="new-collection-name"></textarea>
+                    </div>
+                    <div class="overlay-btn" id="create-collection">CREATE</div>
+                    <div class="overlay-btn" id="cencel-btn">CENCEL</div>
+                    <!--</form>-->
+                </div>
+
+                <div class="table-edit-content" id="update-collection">
+                    <!--<form id="edit-form" method="post">-->
+                    <div class="edit-content-header"><h3>Rename Collection</h3></div>
+                    <div class="overlay-content">
+                        <i class="fa fa-database fa-3x"></i>
+                        <textarea type="text" id="update-collection-name"></textarea>
+                    </div>
+                    <div class="overlay-btn" id="update-save-collection">UPDATE</div>
+                    <div class="overlay-btn" id="cencel-btn">CENCEL</div>
+                    <!--</form>-->
+                </div>
+
+                <div class="table-edit-content" id="view-table">
+                    <!--<form id="edit-form" method="post">-->
+                    <div class="edit-content-header"><h3>View Document</h3></div>
+                    <div class="overlay-content" id="json-data">
+                        <textarea type="text" id="view-document"></textarea>
+                    </div>
+                    <div class="overlay-btn" id="cencel-btn">OK</div>
+                    <!--</form>-->
+                </div>
+
+                <div class="table-edit-content" id="update-table">
+                    <!--<form id="edit-form" method="post">-->
+                    <div class="edit-content-header"><h3>Edit Document</h3></div>
+                    <div class="overlay-content" id="json-data">
+                        <textarea type="text" id="edit-document"></textarea>
+                    </div>
+                    <div class="json-warning">Pleas Enter a valid Json data</div>
+                    <div class="overlay-btn" id="update-save">SAVE</div>
+                    <div class="overlay-btn" id="cencel-btn">CENCEL</div>
+                    <!--</form>-->
+                </div>
+
+                <div class="table-edit-content" id="create-table">
+                    <!--<form id="edit-form" method="post">-->
+                    <div class="edit-content-header"><h3>Insert Document</h3></div>
+                    <div class="overlay-content" id="json-data">
+                        <textarea type="text" id="create-document"></textarea>
+                    </div>
+                    <div class="json-warning">Pleas Enter a valid Json data</div>
+                    <div class="overlay-btn" id="create-save">SAVE</div>
+                    <div class="overlay-btn" id="cencel-btn">CENCEL</div>
+                    <!--</form>-->
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="data-list" id="dblist"></div>
+                <!--<div class="data-list" id="colist"></div>-->
+            </div>
+
+            <div class="col-2">
+                <div class="options-btn">
+                    <div class="options-btn-child" id="new-database">New Database</div>
+                    <div class="options-btn-child" id="new-Collection">New Collections</div>
+                    <div class="options-btn-child" id="new-document">New Document</div>
+                </div>
+
+                <div class="set-profile">
+                    <ul>
+                        <li id="view-profile"><a>View Profile</a></li>
+                        <li id="set-profile-level"><a>Set Profile <i class="fa fa-caret-down"></i></a>
+                            <ul id="profile-level">
+                                <li id="profile-1"><a>1</a></li>
+                                <li id="profile-2"><a>2</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="table-list"></div>
+                <div></div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //initialization
+
+    <!--showDBs(Datalist);-->
+
+    var dbname = "";
+    var collectionname = '';
+    var current_id = "";
+    var Datalist =<%-Datalist%>;
+    showDBs(Datalist);
+
+    $('body').click(function(){
+        $('.contextmenu').css('display', 'none');
+        $('.menulist').css('display', 'none');
+    })
+    $('.close-btn').click(function(){
+        $('.overlay').css('display','none');
+        $('.table-edit-content').css('display','none');
+    })
+
+    //-----------------------------------------------------------------------
+    //new database
+    $('#new-database').click(function(){
+        $('.overlay').css('display','block');
+        $('#new-database-table').css('display','block');
+    })
+    $('#create-database').click(function(){
+        var new_database_name = $('#new-database-name').val();
+        $.ajax({
+            type:"POST",
+            url: "/list",
+            data:{data:new_database_name},
+            success:function(d){
+                showDBs(d.Db);
+            }
+        })
+        $('.overlay').css('display','none');
+        $('#new-database-table').css('display','none');
+    })
+    //------------------------------------------------------------------
+    //new collection
+    $('#new-Collection').click(function(){
+        $('.overlay').css('display','block');
+        $('#new-collection').css('display','block');
+    });
+
+    $('#create-collection').click(function(){
+        var new_collection_name = $('#new-collection-name').val();
+        console.log(new_collection_name);
+        $.ajax({
+            type:"POST",
+            url:"/list/"+dbname+'/',
+            data:{data:new_collection_name},
+            success:showCollectionlist
+        });
+        $('.overlay').css('display','none');
+        $('#new-document').css('display', 'none');
+    })
+
+    $('#update-save-collection').on('click',function(){
+        var new_collection_name = $('#update-collection-name').val();
+        console.log(new_collection_name);
+        console.log('collection name');
+        $.ajax({
+            type:"PUT",
+            url:'/list/'+dbname+'/'+collectionname,
+            data: {text:new_collection_name},
+            success: showCollectionlist
+        });
+//        console.log('put');
+        $('.overlay').css('display','none');
+        $('#update-collection').css('display', 'none');
+    })
+
+    //------------------------------------------------------------------
+    $('#update-save').on('click', function () {
+        console.log('click');
+        var data = $('#edit-document').val();
+        try{
+            $.parseJSON(data);
+            console.log(data);
+            Update(data);
+        }catch(e){
+            console.log('err');
+            $('.json-warning').css('display','inline-block');
+        }
+//        console.log(data);
+//        Update(data);
+    });
+    $('#new-document').click(function () {
+        Insert();
+    });
+    $('#create-save').click(function () {
+        var data = $('#create-document').val();
+        try{
+            $.parseJSON(data);
+            console.log(data);
+            Create(data);
+        }catch(e){
+            console.log('err');
+            $('.json-warning').css('display','inline-block');
+        }
+    })
+
+    $('.overlay-btn#cencel-btn').click(function(){
+        $('.overlay').css('display','none');
+        $('.table-edit-content').css('display','none');
+    })
+    //----------------------------------------------------------------------
+
+//collection and database context menu list click function
+    $('.menulist').click(function(){
+        console.log($(this).attr('id'));
+        if($(this).attr('id') == "edit-menu-list"){
+            $('.overlay').css('display','block');
+            $('#update-collection').css('display', 'block');
+        }
+        else if($(this).attr('id') == "delete-menu-list"){
+            console.log('delete');
+            $.ajax({
+                type:"DELETE",
+                url:'/list/'+dbname+'/'+collectionname,
+                success:showCollectionlist
+            })
+        }
+        else if ($(this).attr('id') == "rename-database"){
+            console.log('rename database');
+            $.ajax({
+                type:"PUT",
+                url:'/list/'+dbname
+            })
+        }
+        else if ($(this).attr('id') == "drop-database"){
+            console.log("drop the database");
+            $.ajax({
+                type:"DELETE",
+                url:'/list/'+dbname,
+                success:function(d){
+                    showDBs(d.Db);
+                }
+            })
+        }
+    })
+
+
+    //-----------------------------------------------
+    //set profile btn
+    $('#view-profile').click(function(){
+        $.get('/info/profiling/'+dbname,function(d){
+            console.log(d);
+        })
+    })
+    $('ul#profile-level li').click(function(){
+        var level;
+       if($(this).attr('id') == "profile-1")
+       {
+           level =1;
+       }
+        else
+       level =2;
+        $.ajax({
+            type:"POST",
+            url:'/info/profiling/'+dbname,
+            data:{data:level},
+            success:function(d){
+                console.log(d.profiledata)
+            }
+        })
+    })
+
+//--------------------------------------
+    function showCollectionlist(db) {
+        console.log(db);
+        d3.selectAll('.collectionlist').remove();
+        var collectionlist = d3.select('#activelist');
+        collectionlist = collectionlist.selectAll()
+                .data(db.CollectionList)
+                .enter()
+                .append('div')
+                .attr('class', 'collectionlist')
+                .attr('id', function(d){
+                    return d.name;
+                })
+                .text(function (d) {
+                    return d.name;
+                })
+        collectionlist
+                .on('click', function (e) {
+                    d3.event.stopImmediatePropagation();
+                    collectionname = $(this).html();
+                    console.log(collectionname);
+                    $.get('/list/' + dbname + '/' + collectionname + '', showDBlist);
+                    $('#new-document').css('display', 'inline-block');
+                });
+        collectionlist.on('contextmenu',function (e) {
+            d3.event.stopImmediatePropagation();
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
+            var text = $(this).attr('id');
+            console.log(text);
+            collectionname = text;
+            if($(this).attr('class') == "collectionlist"){
+                $('.contextmenu').css('display', 'block');
+                $('#edit-menu-list').css('display', 'block');
+                $('#delete-menu-list').css('display', 'block');
+                $('.contextmenu').offset({left: d3.event.pageX, top: d3.event.pageY});
+            }
+        })
+    };
+    function showDBlist(db) {
+        console.log('success');
+        db = db.CollectionData;
+
+        var CollectionData = db;
+        //console.log(CollectionData);
+        var keyArray = d3.keys(CollectionData[0]);
+        console.log(keyArray);
+
+        //增删改查按钮
+
+        var headeractions = ["Actions"];
+
+        var columns = keyArray;
+
+        d3.selectAll('table').remove();
+
+        var table = d3.select(".table-list").append('table')
+        thead = table.append('thead')
+                .attr('class', 'list-thead'),
+                tbody = table.append('tbody')
+                        .attr('class', 'list-tbody');
+        //append table header的元素
+        var header = thead.append('tr');
+        var tableheader = header.selectAll('th');
+
+        //append的data就是得到的keyarray里的数据
+        tableheader.data(columns)
+                .enter()
+                .append('th')
+                .text(function (d) {
+                    return d;
+                })
+
+        //增加CRUD的actions表头
+        header.selectAll()
+                .data(headeractions)
+                .enter()
+                .append('th')
+                .text(function (d) {
+                    console.log(d);
+                    return d;
+                })
+                .attr('colspan', '3');
+
+        var rows = tbody.selectAll('tr')
+            //append的是所有数据
+                .data(CollectionData)
+                .enter()
+                .append('tr');
+
+        var cells = rows.selectAll('td')
+            //binding的data是CollectionData，也就是所有的data
+                .data(function (d) {
+                    //d3 map data变成固定的{columns:"xxxxx","value":"xxxx"}
+                    return columns.map(function (columns) {
+                        return {columns: columns, value: d[columns]};
+                    });
+                })
+                .enter()
+                .append('td')
+                .text(function (d) {
+                    //console.log(d);
+                    return d.value;
+                })
+                .attr('name', function (d) {
+                    return d.columns;
+                });
+
+        rows.append('td')
+                .append('a')
+                .text('View')
+                .on('click',View)
+                .attr('class','operations');
+
+        rows.append('td')
+                .append('a')
+                .text('Edit')
+                .on('click', Edit)
+                .attr('class', 'operations');
+        rows.append('td')
+                .append('a')
+                .text('Delete')
+                .on('click', Delete)
+                .attr('class', 'operations');
+    }
+    ;
+    function showDBs(db){
+        d3.selectAll('.tablist').remove();
+        var new_DB = db;
+        var tablist = d3.select('#dblist').append('div');
+        tablist = tablist.selectAll()
+                .data(new_DB)
+                .enter()
+                .append('div')
+                .attr('class', 'tablist')
+                .text(function (d) {
+                    return d.name;
+                })
+                .attr('name',function(d){
+                    return d.name;
+                })
+        tablist.on('click',function () {
+            console.log('click tablist');
+                    $('.tablist').attr('id','');
+                    $(this).attr('id','activelist');
+                    $('.tablist').css('background-color', '#7ACCB8');
+                    $(this).css('background-color', '#65C7AF');
+                    dbname = $('#activelist').attr('name');
+                    $('#new-Collection').css('display', 'inline-block');
+                    $('.set-profile').css('display','block');
+                    console.log(dbname);
+                    $.get('/list/' + dbname + '', showCollectionlist);
+                })
+        tablist.on('contextmenu', function (e) {
+            d3.event.stopImmediatePropagation();
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
+            var text = $(this).attr('name');
+            console.log(text);
+            dbname = text;
+            console.log(e.target);
+            $('.database-contextmenu').css('display', 'block');
+            $('.menulist').css('display', 'block');
+            $('.database-contextmenu').offset({left: d3.event.pageX, top: d3.event.pageY});
+
+        })
+    }
+    //增删改查 删除函数
+    function Insert() {
+        $('.overlay').css('display', 'block');
+        $('#create-table').css('display', 'block');
+    }
+    function Create(d) {
+        console.log(d);
+        $.ajax({
+            type: "POST",
+            url: '/list/' + dbname + '/' + collectionname + '',
+            data: {data: d},
+            success: showDBlist
+        });
+        $('.overlay').css('display', 'none');
+        $('#create-table').css('display', 'none');
+
+    }
+    function Delete(d) {
+        current_id = d['_id'];
+        console.log(current_id);
+        $.ajax({
+            type: "DELETE",
+            url: '/list/' + dbname + '/' + collectionname + '/' + current_id + '',
+            success: showDBlist
+        });
+
+    }
+    ;
+
+    //增删改查 改
+
+    function View(d){
+        current_id = d['_id'];
+        $.get('/list/' + dbname + '/' + collectionname + '/' + current_id + '', function (d) {
+            $('#view-document').val(JSON.stringify(d.CurrentData,null,'\t'));
+            console.log($('#view-document').val());
+        });
+        $('.overlay').css('display', 'block');
+        $('#view-table').css('display', 'block');
+    }
+    function Edit(d) {
+        current_id = d['_id'];
+        $.get('/list/' + dbname + '/' + collectionname + '/' + current_id + '', function (d) {
+            $('#edit-document').val(JSON.stringify(d.CurrentData,null,'\t'));
+            console.log($('#edit-document').val());
+        });
+        $('.overlay').css('display', 'block');
+        $('#update-table').css('display', 'block');
+
+    };
+    function Update(d) {
+        console.log(d);
+        $.ajax({
+            type: "PUT",
+            url: '/list/' + dbname + '/' + collectionname + '/' + current_id + '',
+            data: {data: d},
+            success: showDBlist
+        });
+        $('.overlay').css('display', 'none');
+        $('#update-table').css('display', 'none');
+    }
+
+</script>
+
+
+</body>
+</html>
