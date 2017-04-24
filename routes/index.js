@@ -54,6 +54,7 @@ router.get('/', function (req, res, next) {
                 });
             }
             else{
+                console.log('delete id is = >'+id);
                 collection.findOneAndDelete({_id: id}, function (err, doc) {
                     console.log(doc);
                 });
@@ -299,7 +300,7 @@ router.get('/', function (req, res, next) {
             console.log(date_now);
             profile.find({}).toArray(function(err,perform){
                 console.log(perform);
-                res.send(perform);
+                res.render("dashboard",{perform:perform});
             })
             //profile.aggregate([
             //
